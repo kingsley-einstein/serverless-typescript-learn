@@ -1,6 +1,9 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import "source-map-support/register";
-// import db from "./db";
+import * as mongoose from "mongoose";
+import db from "./db";
+
+mongoose.connect("mongodb://localhost:27017/ts_serverless").then(console.log);
 
 export const hello: APIGatewayProxyHandler = async (event, _context) => {
  return {
@@ -18,7 +21,7 @@ export const hello: APIGatewayProxyHandler = async (event, _context) => {
 
 export const addUser: APIGatewayProxyHandler = async (event, _context) => {
  try {
-  const user = { ...JSON.parse(event.body) };
+  const user = await db.users.create({ ...JSON.parse(event.body) });
   return {
    statusCode: 201,
    body: JSON.stringify(
