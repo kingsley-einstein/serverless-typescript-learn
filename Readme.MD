@@ -1,0 +1,1 @@
+Trying out serverless with Typescript.
